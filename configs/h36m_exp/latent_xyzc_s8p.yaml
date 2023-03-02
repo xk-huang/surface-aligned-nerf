@@ -1,4 +1,4 @@
-task: 'if_nerf'
+task: 'sa-nerf'
 gpus: [0]
 
 parent_cfg: 'configs/zju_mocap_exp/multi_view_313.yaml'
