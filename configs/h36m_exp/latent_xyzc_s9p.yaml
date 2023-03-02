@@ -1,7 +1,7 @@
 task: 'if_nerf'
 gpus: [0]
 
-parent_cfg: 'configs/zju_mocap_exp/latent_xyzc_313.yaml'
+parent_cfg: 'configs/zju_mocap_exp/multi_view_313.yaml'
 
 train_dataset:
     data_root: 'data/h36m/S9/Posing'
@@ -27,3 +27,5 @@ smpl: 'smpl'
 vertices: 'new_vertices'
 params: 'new_params'
 big_box: True
+
+human: -1
