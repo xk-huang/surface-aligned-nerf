@@ -7,57 +7,20 @@
 # without an express license agreement from NVIDIA CORPORATION or 
 # its affiliates is strictly prohibited.
 
-ARG BASE_IMAGE=nvcr.io/nvidia/pytorch:22.07-py3
+ARG BASE_IMAGE=neuralbody:latest
 FROM $BASE_IMAGE
-
-RUN if [ -f /etc/apt/sources.list.d/cuda.list ]; then \
-    rm /etc/apt/sources.list.d/cuda.list; \
-    fi \
-    && if [ -f /etc/apt/sources.list.d/nvidia-ml.list ]; then \
-    rm /etc/apt/sources.list.d/nvidia-ml.list; \
-    fi && \
-    sed -i "s@http://.*archive.ubuntu.com@https://mirrors.tuna.tsinghua.edu.cn@g" /etc/apt/sources.list && \
-    sed -i "s@http://.*security.ubuntu.com@https://mirrors.tuna.tsinghua.edu.cn@g" /etc/apt/sources.list && \
-    pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
-
-RUN apt-get update -yq --fix-missing \
-    && DEBIAN_FRONTEND=noninteractive apt-get install -yq --no-install-recommends \
-    pkg-config \
-    libglvnd0 \
-    libgl1 \
-    libglx0 \
-    libegl1 \
-    libgles2 \
-    libglvnd-dev \
-    libgl1-mesa-dev \
-    libegl1-mesa-dev \
-    libgles2-mesa-dev \
-    cmake \
-    curl \
-    git
-
-ENV PYTHONDONTWRITEBYTECODE=1
-ENV PYTHONUNBUFFERED=1
-
-# nvidia-container-runtime
-ENV NVIDIA_VISIBLE_DEVICES all
-ENV NVIDIA_DRIVER_CAPABILITIES compute,utility,graphics
-
-# Default pyopengl to EGL for good headless rendering support
-ENV PYOPENGL_PLATFORM egl
-
-COPY 10_nvidia.json /usr/share/glvnd/egl_vendor.d/10_nvidia.json
 
 # additional libraries
 
 # Fix install error https://github.com/scopatz/pyembree/issues/36
 COPY requirements.txt /workspace/requirements.txt
 RUN pip install -r requirements.txt && \
+pip install imageio==2.4.0 && \
 conda install -y -c conda-forge embree=2.17.7 && \
 conda install -y -c conda-forge pyembree
 
 # install nvdiffrast
-RUN git config --global http.proxy http://10.81.45.119:9910 && pip install "git+https://github.com/facebookresearch/pytorch3d.git"
+RUN git config --global http.proxy http://10.81.45.119:9910 && pip install "git+https://github.com/facebookresearch/pytorch3d.git@v0.6.0"
 # RUN git config --global http.proxy http://10.81.45.119:9910 && pip install git+https://github.com/NVlabs/nvdiffrast/
 
 # HDR image support
