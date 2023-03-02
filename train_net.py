@@ -9,6 +9,21 @@ import torch
 import torch.distributed as dist
 import os
 
+import signal
+import sys
+
+def signal_term_handler(signal, frame):
+    save_model(network,
+                optimizer,
+                scheduler,
+                recorder,
+                cfg.trained_model_dir,
+                epoch,
+                last=False)
+    print ('got SIGTERM, save ckpt')
+    sys.exit(0)
+
+signal.signal(signal.SIGTERM, signal_term_handler)
 
 if cfg.fix_random:
     torch.manual_seed(0)
@@ -17,6 +32,7 @@ if cfg.fix_random:
 
 
 def train(cfg, network):
+    global optimizer, scheduler, recorder, epoch
     trainer = make_trainer(cfg, network)
     optimizer = make_optimizer(cfg, network)
     scheduler = make_lr_scheduler(cfg, optimizer)
@@ -98,7 +114,7 @@ def main():
         torch.distributed.init_process_group(backend="nccl",
                                              init_method="env://")
         synchronize()
-
+    global network
     network = make_network(cfg)
     if args.test:
         test(cfg, network)
