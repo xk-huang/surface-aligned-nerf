@@ -90,7 +90,7 @@ class Trainer(object):
                 recorder.record('train')
 
 
-    def val(self, epoch, data_loader, evaluator=None, recorder=None):
+    def val(self, epoch, data_loader, evaluator=None, recorder=None, debug_mode=False):
         self.network.eval()
         torch.cuda.empty_cache()
         val_loss_stats = {}
@@ -106,6 +106,8 @@ class Trainer(object):
             for k, v in loss_stats.items():
                 val_loss_stats.setdefault(k, 0)
                 val_loss_stats[k] += v
+            if debug_mode:
+                break
 
         loss_state = []
         for k in val_loss_stats.keys():

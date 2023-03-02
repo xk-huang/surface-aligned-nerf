@@ -90,3 +90,5 @@ class Evaluator:
         self.mse = []
         self.psnr = []
         self.ssim = []
+
+        return {'mse': np.mean(self.mse), 'psnr': np.mean(self.psnr), 'ssim': np.mean(self.ssim)}

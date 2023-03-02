@@ -33,6 +33,7 @@ if cfg.fix_random:
 
 def train(cfg, network):
     global optimizer, scheduler, recorder, epoch
+    epoch=-1
     trainer = make_trainer(cfg, network)
     optimizer = make_optimizer(cfg, network)
     scheduler = make_lr_scheduler(cfg, optimizer)
@@ -53,6 +54,8 @@ def train(cfg, network):
                                     is_distributed=cfg.distributed,
                                     max_iter=cfg.ep_iter)
     val_loader = make_data_loader(cfg, is_train=False)
+
+    trainer.val(-1, val_loader, evaluator, recorder, True)
 
     for epoch in range(begin_epoch, cfg.train.epoch):
         recorder.epoch = epoch
