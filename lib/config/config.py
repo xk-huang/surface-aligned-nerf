@@ -140,6 +140,7 @@ cfg.lower_body = ''
 cfg.upper_body_dir = ''
 cfg.lower_body_dir = ''
 
+cfg.test.no_eval = False
 
 def parse_cfg(cfg, args):
     if len(cfg.task) == 0:

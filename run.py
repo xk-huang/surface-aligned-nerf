@@ -70,8 +70,10 @@ def run_evaluate():
                 batch[k] = batch[k].cuda()
         with torch.no_grad():
             output = renderer.render(batch)
-        evaluator.evaluate(output, batch)
-    evaluator.summarize()
+        if not cfg.test.no_eval:
+            evaluator.evaluate(output, batch)
+    if not cfg.test.no_eval:
+        evaluator.summarize()
 
 
 def run_visualize():
