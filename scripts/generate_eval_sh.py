@@ -24,11 +24,11 @@ for _time in time_ls:
         if int(job_id) > 300:
             weights_dir = f"{base_dir}/zju_mocap/{_time}/test_{job_id}/"
             weight_epoch = find_largest_epoch(weights_dir)
-            print(f'id={job_id}; python run.py --type evaluate --cfg_file configs/zju_mocap_exp/multi_view_${{id}}.yaml exp_name zju_mocap/{_time}/test_${{id}} gpus [{gpu_id}] test.epoch {weight_epoch} result_dir data/result/novel_view num_train_frame 300 num_novel_pose_frame 300 training_view "0,1,3,4,5,6,7,9,10,11,12,13,15,16,17,18,19,21,22" &')
+            print(f'id={job_id}; python run.py --type evaluate --cfg_file configs/zju_mocap_exp/multi_view_${{id}}.yaml exp_name zju_mocap/{_time}/test_${{id}} gpus [{gpu_id}] test.epoch {weight_epoch} result_dir data/result/novel_view num_novel_pose_frame 300 training_view "0,1,3,4,5,6,7,9,10,11,12,13,15,16,17,18,19,21,22" &')
         else:
             weights_dir = f"{base_dir}/h36m/{_time}/test_{job_id}/"
             weight_epoch = find_largest_epoch(weights_dir)
-            print(f'id={job_id}; python run.py --type evaluate --cfg_file configs/h36m_exp/latent_xyzc_s${{id}}p.yaml exp_name h36m/{_time}/test_${{id}} gpus [{gpu_id}] test.epoch {weight_epoch} result_dir data/result/novel_view num_train_frame 300 num_novel_pose_frame 300 &')
+            print(f'id={job_id}; python run.py --type evaluate --cfg_file configs/h36m_exp/latent_xyzc_s${{id}}p.yaml exp_name h36m/{_time}/test_${{id}} gpus [{gpu_id}] test.epoch {weight_epoch} result_dir data/result/novel_view num_novel_pose_frame 300 &')
     print('wait')
 
 for _time in time_ls:
@@ -39,9 +39,9 @@ for _time in time_ls:
         if int(job_id) > 300:
             weights_dir = f"{base_dir}/zju_mocap/{_time}/test_{job_id}/"
             weight_epoch = find_largest_epoch(weights_dir)
-            print(f'id={job_id}; python run.py --type evaluate --cfg_file configs/zju_mocap_exp/multi_view_${{id}}.yaml exp_name zju_mocap/{_time}/test_${{id}} gpus [{gpu_id}] test.epoch {weight_epoch} result_dir data/result/novel_pose test_novel_pose True num_train_frame 300 num_novel_pose_frame 300 training_view "0,1,3,4,5,6,7,9,10,11,12,13,15,16,17,18,19,21,22" &')
+            print(f'id={job_id}; python run.py --type evaluate --cfg_file configs/zju_mocap_exp/multi_view_${{id}}.yaml exp_name zju_mocap/{_time}/test_${{id}} gpus [{gpu_id}] test.epoch {weight_epoch} result_dir data/result/novel_pose test_novel_pose True num_novel_pose_frame 300 training_view "0,1,3,4,5,6,7,9,10,11,12,13,15,16,17,18,19,21,22" &')
         else:
             weights_dir = f"{base_dir}/h36m/{_time}/test_{job_id}/"
             weight_epoch = find_largest_epoch(weights_dir)
-            print(f'id={job_id}; python run.py --type evaluate --cfg_file configs/h36m_exp/latent_xyzc_s${{id}}p.yaml exp_name h36m/{_time}/test_${{id}} gpus [{gpu_id}] test.epoch {weight_epoch} result_dir data/result/novel_pose test_novel_pose True num_train_frame 300 num_novel_pose_frame 300 &')
+            print(f'id={job_id}; python run.py --type evaluate --cfg_file configs/h36m_exp/latent_xyzc_s${{id}}p.yaml exp_name h36m/{_time}/test_${{id}} gpus [{gpu_id}] test.epoch {weight_epoch} result_dir data/result/novel_pose test_novel_pose True num_novel_pose_frame 300 &')
     print('wait')
